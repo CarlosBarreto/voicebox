@@ -756,7 +756,8 @@
       "options": {
         "system": "System",
         "light": "Light",
-        "dark": "Dark"
+        "dark": "Dark",
+        "senordev": "SenorDev"
       }
     },
     "general": {

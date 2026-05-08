@@ -1,17 +1,34 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 
-export type Theme = 'light' | 'dark' | 'system';
+export type Theme = 'light' | 'dark' | 'system' | 'senordev';
 
-function resolveTheme(theme: Theme): 'light' | 'dark' {
-  if (theme !== 'system') return theme;
-  if (typeof window === 'undefined') return 'dark';
-  return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+const VALID_THEMES = ['light', 'dark', 'system', 'senordev'] as const;
+
+function normalizeTheme(value: unknown): Theme {
+  return (VALID_THEMES as readonly string[]).includes(value as string)
+    ? (value as Theme)
+    : 'system';
 }
 
-function applyTheme(theme: Theme) {
+function resolveTheme(theme: Theme): 'light' | 'dark' | 'senordev' {
+  if (theme === 'system') {
+    if (typeof window === 'undefined') return 'dark';
+    return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+  }
+  return theme;
+}
+
+export function applyTheme(theme: Theme) {
   if (typeof document === 'undefined') return;
-  document.documentElement.classList.toggle('dark', resolveTheme(theme) === 'dark');
+  const resolved = resolveTheme(theme);
+  const root = document.documentElement;
+  root.classList.toggle('dark', resolved === 'dark');
+  if (resolved === 'light') {
+    root.removeAttribute('data-theme');
+  } else {
+    root.dataset.theme = resolved;
+  }
 }
 
 // Draft state for the create voice profile form
@@ -102,7 +119,10 @@ export const useUIStore = create<UIStore>()(
         theme: state.theme,
       }),
       onRehydrateStorage: () => (state) => {
-        if (state) applyTheme(state.theme);
+        if (!state) return;
+        const normalized = normalizeTheme(state.theme);
+        if (normalized !== state.theme) state.theme = normalized;
+        applyTheme(normalized);
       },
     },
   ),
