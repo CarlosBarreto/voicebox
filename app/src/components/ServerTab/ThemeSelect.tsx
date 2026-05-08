@@ -22,6 +22,7 @@ export function ThemeSelect() {
         <SelectItem value="system">{t('settings.theme.options.system')}</SelectItem>
         <SelectItem value="light">{t('settings.theme.options.light')}</SelectItem>
         <SelectItem value="dark">{t('settings.theme.options.dark')}</SelectItem>
+        <SelectItem value="senordev">{t('settings.theme.options.senordev')}</SelectItem>
       </SelectContent>
     </Select>
   );

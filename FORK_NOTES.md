@@ -20,7 +20,7 @@
 Fork **sincronizado con divergencia acotada y enumerable**. Definición operativa:
 
 - Seguimos `upstream/main` con `git fetch upstream` periódico.
-- Hay un único punto de divergencia autorizado en `main`: el theme `agiotech` (ver § Divergencias visibles).
+- Hay un único punto de divergencia autorizado en `main`: el theme `senordev` (ver § Divergencias visibles).
 - Fuera de esa lista enumerada, la divergencia sigue siendo cero. El trabajo "del fork" vive en archivos que **no existen en upstream** (este `FORK_NOTES.md`, traducciones futuras en carpetas nuevas, openspec/, etc.).
 - Cualquier ampliación de la divergencia requiere una D-NNN nueva en `project_docs/decisions.md` con justificación.
 
@@ -37,7 +37,7 @@ Tres razones, en orden:
 3. **Evaluar integración** con el ecosistema agéntico de Agiotech (Mictlán) como motor de voz, vía el MCP server expuesto por voicebox. La decisión de caso de uso primario está pendiente.
 
 No buscamos:
-- ❌ Hacer un re-write Agiotech de voicebox.
+- ❌ Hacer un re-skin productivo del fork (más allá del theme `senordev` autorizado por D-011, que es look personal opt-in y no rediseño del producto).
 - ❌ Hostear voicebox como servicio cloud (viola la promesa local-first del producto).
 - ❌ Renombrar el binario, publicar a npm, ni cambiar `package.json` core.
 
@@ -57,7 +57,7 @@ El owner del fork mantiene un **Sistema Maestro Agéntico (SMP)** local en `proj
 | `data/` (modelos, voces, capturas) | repo raíz | **no** (gitignored upstream + privacidad) |
 | Tokens HuggingFace, credenciales | en ningún lado del repo | **nunca** |
 
-Si trabajas en este fork y te descubres modificando archivos upstream "para hacerlo a la Agiotech", para y revisa `project_docs/boundaries.md`. Probablemente lo correcto sea (a) abrir un PR upstream o (b) abrir un proyecto separado.
+Si trabajas en este fork y te descubres modificando archivos upstream para personalizarlos más allá de la lista enumerada por D-011, para y revisa `project_docs/boundaries.md`. Probablemente lo correcto sea (a) abrir un PR upstream o (b) abrir un proyecto separado.
 
 ---
 
@@ -73,14 +73,14 @@ git merge --ff-only upstream/main   # intenta fast-forward primero
 git push origin main
 ```
 
-**Si el `--ff-only` falla**, no es necesariamente alarma — desde D-011 (2026-05-08) hay divergencia esperable en los archivos del theme `agiotech`. Verificar primero que el conflicto sea solo en esa lista enumerada:
+**Si el `--ff-only` falla**, no es necesariamente alarma — desde D-011 (2026-05-08) hay divergencia esperable en los archivos del theme `senordev`. Verificar primero que el conflicto sea solo en esa lista enumerada:
 
 ```bash
 git merge upstream/main                          # merge normal, deja conflictos
 git diff --name-only --diff-filter=U             # archivos en conflicto
 ```
 
-Si **todos** los archivos en conflicto están en la lista de D-011 (`app/src/index.css`, `app/src/stores/uiStore.ts`, `app/src/hooks/useThemeSync.ts`, `app/src/components/ServerTab/ThemeSelect.tsx`, `app/src/i18n/locales/*/translation.json`), resolver manualmente preservando el bloque `.agiotech` y la 4ta opción del theme. Si aparece **cualquier otro archivo en conflicto**, parar y revisar qué se introdujo fuera del scope autorizado por D-011.
+Si **todos** los archivos en conflicto están en la lista de D-011 (`app/src/index.css`, `app/src/stores/uiStore.ts`, `app/src/hooks/useThemeSync.ts`, `app/src/components/ServerTab/ThemeSelect.tsx`, `app/src/i18n/locales/*/translation.json`), resolver manualmente preservando el bloque `[data-theme="senordev"]` y la 4ta opción del theme. Si aparece **cualquier otro archivo en conflicto**, parar y revisar qué se introdujo fuera del scope autorizado por D-011.
 
 Si el merge no es fast-forward y los conflictos están **fuera** de la lista de D-011, **algo divergió de forma no autorizada** y hay que entender qué pasó antes de continuar:
 
@@ -117,7 +117,7 @@ Detalle completo en `project_docs/decisions.md` (local). Resumen para colaborado
 | D-008 | `data/` ignorado y NO sincronizado a backups externos. |
 | D-009 | `project_docs/` y `PROJECT.md` excluidos localmente vía `.git/info/exclude` (no `.gitignore`, que se commitearía). |
 | D-010 | El MCP server local es la interfaz canónica de integración con otros proyectos. Cliente sí, copia no. |
-| D-011 | Divergencia productiva mínima vía theme `agiotech` (lista enumerada de archivos). Acota D-001 sin reemplazarla. |
+| D-011 | Divergencia productiva mínima vía theme `senordev` (lista enumerada de archivos). Acota D-001 sin reemplazarla. |
 
 ---
 
@@ -127,7 +127,7 @@ Lista canónica y enumerable de archivos upstream que el fork modifica. Esta lis
 
 | # | Cambio | Archivos tocados | Decisión origen | Fecha | PR upstream |
 |---|---|---|---|---|---|
-| 1 | Theme `agiotech` (4ta opción del selector) | `app/src/index.css`, `app/src/stores/uiStore.ts`, `app/src/hooks/useThemeSync.ts`, `app/src/components/ServerTab/ThemeSelect.tsx`, `app/src/i18n/locales/{en,ja,zh-CN,zh-TW}/translation.json` | D-011 | 2026-05-08 | No (Agiotech-flavored, no se generaliza) |
+| 1 | Theme `senordev` (4ta opción del selector — look personal del fork) | `app/src/index.css`, `app/src/stores/uiStore.ts`, `app/src/hooks/useThemeSync.ts`, `app/src/components/ServerTab/ThemeSelect.tsx`, `app/src/i18n/locales/{en,ja,zh-CN,zh-TW}/translation.json` | D-011 | 2026-05-08 | No (look personal del fork, no se generaliza) |
 
 Comando útil para auditar divergencia real vs declarada:
 
@@ -138,7 +138,7 @@ git diff upstream/main --name-only
 # o ser archivos que no existen en upstream (FORK_NOTES.md, openspec/, etc.)
 ```
 
-Archivos que **no existen en upstream** y por tanto no requieren listarse aquí: `FORK_NOTES.md`, `openspec/`, traducciones futuras en carpetas nuevas.
+Archivos que **no existen en upstream** y por tanto no requieren listarse aquí: `FORK_NOTES.md`, `openspec/` (specs y propuestas openspec), `.claude/` (slash commands + skills generados por `openspec init --tools claude`), `dev-fork.ps1` y `dev-fork.sh` (helpers de setup `bun install` + `bun run dev` para arrancar el fork en una máquina nueva), traducciones futuras en carpetas nuevas.
 
 ---
 
@@ -159,7 +159,7 @@ Candidatos típicos:
 - Ejemplos de uso del MCP server con clientes específicos (Claude Code, Cursor, Cline).
 
 Lo que NO se propone upstream:
-- Cambios "Agiotech-flavored" de UX, branding, o convenciones que no se generalicen.
+- Cambios de UX o look personales del fork (ej. theme `senordev`) que no se generalicen.
 - Telemetría o logs adicionales solo útiles para el owner.
 
 ---
@@ -181,4 +181,4 @@ Lo que NO se propone upstream:
 
 ---
 
-_Última actualización: 2026-05-08 (Fase A del theme `agiotech` — D-011 + sección Divergencias visibles)._
+_Última actualización: 2026-05-08 (Fase A→D del theme `senordev` — D-011, openspec change `add-senordev-theme`, e implementación en archivos enumerados)._

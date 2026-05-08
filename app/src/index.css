@@ -99,6 +99,35 @@
   --chart-5: 340 75% 55%;
 }
 
+[data-theme="senordev"] {
+  --background: 0 0% 100%;
+  --foreground: 222 76% 15%;
+  --card: 204 23% 97%;
+  --card-foreground: 222 76% 15%;
+  --popover: 204 23% 97%;
+  --popover-foreground: 222 76% 15%;
+  --primary: 186 100% 40%;
+  --primary-foreground: 0 0% 100%;
+  --secondary: 205 24% 92%;
+  --secondary-foreground: 222 76% 15%;
+  --muted: 204 23% 97%;
+  --muted-foreground: 220 19% 44%;
+  --accent: 186 100% 40%;
+  --accent-foreground: 0 0% 100%;
+  --destructive: 5 65% 48%;
+  --destructive-foreground: 0 0% 100%;
+  --border: 205 24% 92%;
+  --input: 205 24% 92%;
+  --ring: 186 100% 40%;
+  --sidebar: 210 24% 95%;
+  --radius: 0.625rem;
+  --chart-1: 186 100% 40%;
+  --chart-2: 156 84% 34%;
+  --chart-3: 222 76% 15%;
+  --chart-4: 40 76% 48%;
+  --chart-5: 5 65% 48%;
+}
+
 @layer base {
   * {
     @apply border-border;
