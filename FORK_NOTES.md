@@ -138,7 +138,7 @@ git diff upstream/main --name-only
 # o ser archivos que no existen en upstream (FORK_NOTES.md, openspec/, etc.)
 ```
 
-Archivos que **no existen en upstream** y por tanto no requieren listarse aquí: `FORK_NOTES.md`, `openspec/` (specs y propuestas openspec), `.claude/` (slash commands + skills generados por `openspec init --tools claude`), `dev-fork.ps1` y `dev-fork.sh` (helpers de setup `bun install` + `bun run dev` para arrancar el fork en una máquina nueva), traducciones futuras en carpetas nuevas.
+Archivos que **no existen en upstream** y por tanto no requieren listarse aquí: `FORK_NOTES.md`, `openspec/` (specs y propuestas openspec), `.claude/` (slash commands + skills generados por `openspec init --tools claude`), `dev-fork.ps1` / `dev-fork.sh` / `dev-fork.bat` (helpers de setup: `bun install` + `bun run dev` por default, o `+ just build` con la flag `--build` / `-Build`), traducciones futuras en carpetas nuevas.
 
 ---
 
